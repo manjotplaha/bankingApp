@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
+from userauths.models import User
 from account.models import Account
 from core.forms import SupportCaseForm
 
@@ -9,13 +9,16 @@ from core.forms import SupportCaseForm
 # Create your views here.
 
 def index(request):
-    return render(request,"core/index.html")
+    return render(request, "core/index.html")
+
 
 def contact(request):
-    return render(request,"core/contact.html")
+    return render(request, "core/contact.html")
+
 
 def about(request):
-    return render(request,"core/about.html")
+    return render(request, "core/about.html")
+
 
 def support_page(request):
     if request.method == 'POST':
@@ -33,7 +36,8 @@ def support_page(request):
             support_case = form.save(commit=False)
             support_case.account = account
             support_case.save()
-            messages.success(request, "Support case submitted successfully. Your Case ID is: {}".format(support_case.id))
+            messages.success(request,
+                             "Support case submitted successfully. Your Case ID is: {}".format(support_case.id))
             return redirect('account:account')
 
     else:
